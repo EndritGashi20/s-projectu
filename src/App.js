@@ -13,28 +13,30 @@ import UpdatePlace from './places/pages/UpdatePlace';
 import Auth from './user/pages/Auth';
 import MainNavigation from './shared/components/Navigation/MainNavigation';
 import { AuthContext } from './shared/context/auth-context';
+import SearchPlaces from './places/components/SearchPlaces';
+import SearchResults from './places/components/SearchResults';
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [token, setToken] = useState(false);
   const [userId, setUserId] = useState(false);
 
-  const login = useCallback(uid => {
-    setIsLoggedIn(true);
+  const login = useCallback((uid, token) => {
+    setToken(token);
     setUserId(uid);
   }, []);
 
   const logout = useCallback(() => {
-    setIsLoggedIn(false);
+    setToken(null);
     setUserId(null);
   }, []);
 
   let routes;
 
-  if (isLoggedIn) {
+  if (token) {
     routes = (
       <Switch>
         <Route path="/" exact>
-          <Users />
+        <SearchPlaces />
         </Route>
         <Route path="/:userId/places" exact>
           <UserPlaces />
@@ -45,6 +47,9 @@ const App = () => {
         <Route path="/places/:placeId">
           <UpdatePlace />
         </Route>
+        <Route path="/profiles">
+          <Users />
+        </Route>
         <Redirect to="/" />
       </Switch>
     );
@@ -52,13 +57,19 @@ const App = () => {
     routes = (
       <Switch>
         <Route path="/" exact>
-          <Users />
+          <SearchPlaces />
         </Route>
         <Route path="/:userId/places" exact>
           <UserPlaces />
         </Route>
         <Route path="/auth">
           <Auth />
+        </Route>
+        <Route path="/profiles">
+          <Users />
+        </Route>
+        <Route path="/search">
+          <SearchResults />
         </Route>
         <Redirect to="/auth" />
       </Switch>
@@ -68,7 +79,8 @@ const App = () => {
   return (
     <AuthContext.Provider
       value={{
-        isLoggedIn: isLoggedIn,
+        isLoggedIn: !!token,
+        token: token,
         userId: userId,
         login: login,
         logout: logout
