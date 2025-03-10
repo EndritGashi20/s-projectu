@@ -1,39 +1,81 @@
 .search-container {
-  background-image: url("/src/places/components/happyfinal.png"); /* Update path */
+  background-image: url("/src/places/components/happy final final.png"); /* Update path */
   background-size: cover;
   background-position: center;
   width: 100%;
-  height: 420px; /* Adjust height to match your design */
+  height: 500px;
+
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 0px;
 }
 
 .search-box {
   display: flex;
-  background: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
-  padding: 10px;
+  flex-wrap: wrap;
+  gap: 15px; 
+  background: rgba(255, 255, 255, 0.9); 
+  padding: 15px;
   border-radius: 8px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
+  justify-content: center;
+  align-items: center;
+  max-width: 80%;
+}
+
+.search-box input,
+.search-box select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  outline: none;
+  border-radius: 5px;
+  font-size: 14px;
 }
 
 .search-box input {
-  padding: 10px;
-  border: none;
-  outline: none;
-  width: 250px;
-  border-radius: 5px 0 0 5px;
+  width: 180px; /* Adjust input width */
 }
 
-.search-box button {
+.search-box select {
+  width: 160px;
+  background-color: white;
+}
+
+.price-range {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* ✅ Adds spacing between min/max price inputs */
+}
+
+.price-separator {
+  font-weight: bold;
+}
+
+.search-button {
   background-color: #007bff;
   color: white;
   border: none;
   padding: 10px 15px;
   cursor: pointer;
-  border-radius: 0 5px 5px 0;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
 }
 
-.search-box button:hover {
+.search-button:hover {
   background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+  .search-box {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .search-box input,
+  .search-box select,
+  .search-button {
+    width: 100%;
+  }
 }

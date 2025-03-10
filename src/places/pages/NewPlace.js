@@ -39,6 +39,10 @@ const NewPlace = () => {
       city: {
         value: null,
         isValid: false
+      },
+      type: {
+        value: null,
+        isValid: false
       }
     },
     false
@@ -56,6 +60,7 @@ const NewPlace = () => {
       formData.append('creator', auth.userId);
       formData.append('image', formState.inputs.image.value);
       formData.append('city', formState.inputs.title.value);
+      formData.append('type', formState.inputs.title.value);
       await sendRequest('http://localhost:5000/api/places', 'POST', formData);
       history.push('/');
     } catch (err) {}
@@ -66,6 +71,7 @@ const NewPlace = () => {
       <ErrorModal error={error} onClear={clearError} />
       <form className="place-form" onSubmit={placeSubmitHandler}>
         {isLoading && <LoadingSpinner asOverlay />}
+        
         <Input
           id="title"
           element="input"
@@ -97,20 +103,39 @@ const NewPlace = () => {
           type="text"
           label="City"
           validators={[VALIDATOR_REQUIRE()]}
-          errorText="Please enter a valid title."
+          errorText="Please enter a valid city."
           onInput={inputHandler}
         />
+  
+        {/* ✅ Added Dropdown for Rent/Buy */}
+        <div className="form-control">
+          <label htmlFor="type">Type</label>
+          <select
+            id="type"
+            onChange={(e) =>
+              inputHandler("type", e.target.value, true)
+            }
+            className="input-element"
+          >
+            <option value="">Select Type</option>
+            <option value="rent">Rent</option>
+            <option value="buy">Buy</option>
+          </select>
+        </div>
+  
         <ImageUpload
           id="image"
           onInput={inputHandler}
           errorText="Please provide an image."
         />
+        
         <Button type="submit" disabled={!formState.isValid}>
           ADD PLACE
         </Button>
       </form>
     </React.Fragment>
   );
+  
 };
 
 export default NewPlace;

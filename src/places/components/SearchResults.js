@@ -10,37 +10,45 @@ const SearchResults = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const address = searchParams.get("address");
-  const city = searchParams.get("city"); // ✅ Get city from query
+  const city = searchParams.get("city"); 
+  const type = searchParams.get("type");
+  const price = searchParams.get("price");
+  
 
   useEffect(() => {
-    if (!address && !city) return;
+    if (!address && !city && !type && !price ) return;
 
     const fetchPlaces = async () => {
       setLoading(true);
       setError(null);
-
+  
       try {
         let query = "";
         if (address) query += `address=${encodeURIComponent(address)}`;
-        if (city) query += `${query ? '&' : ''}city=${encodeURIComponent(city)}`;
-
+        if (city) query += `${query ? "&" : ""}city=${encodeURIComponent(city)}`;
+        if (type) query += `${query ? "&" : ""}type=${encodeURIComponent(type)}`;
+        if (price) query += `${query ? "&" : ""}price=${encodeURIComponent(price)}`;
+  
         const response = await fetch(`http://localhost:5000/api/places/search?${query}`);
         const data = await response.json();
-
+  
+        console.log("API Response:", data); 
+  
         if (!response.ok) {
           throw new Error(data.message || "No places found.");
         }
-
-        setPlaces(data || []);
+  
+        
+        setPlaces(data.places && Array.isArray(data.places) ? data.places : []);
       } catch (err) {
         setError(err.message || "Failed to fetch places.");
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchPlaces();
-  }, [address, city]); // ✅ Re-fetch when address or city changes
+  }, [address, city, type, price]);
 
   return (
     <div style={{ maxWidth: "600px", margin: "20px auto", textAlign: "center" }}>
