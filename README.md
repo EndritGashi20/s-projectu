@@ -1,6 +1,6 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is backend of full stack Real State Project technologies that are used "Node js ,Expres js,Mongo DB":
 
 ## Available Scripts
 
