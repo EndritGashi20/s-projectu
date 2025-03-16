@@ -43,6 +43,10 @@ const NewPlace = () => {
       type: {
         value: null,
         isValid: false
+      },
+      price: {
+        value: null,
+        isValid: false
       }
     },
     false
@@ -61,6 +65,7 @@ const NewPlace = () => {
       formData.append('image', formState.inputs.image.value);
       formData.append('city', formState.inputs.title.value);
       formData.append('type', formState.inputs.title.value);
+      formData.append('price',formState.inputs.price.value);
       await sendRequest('http://localhost:5000/api/places', 'POST', formData);
       history.push('/');
     } catch (err) {}
@@ -122,6 +127,15 @@ const NewPlace = () => {
             <option value="buy">Buy</option>
           </select>
         </div>
+        <Input
+          id="price"
+          element="input"
+          type="text"
+          label="Price"
+          validators={[VALIDATOR_REQUIRE()]}
+          errorText="Please enter a valid city."
+          onInput={inputHandler}
+        />
   
         <ImageUpload
           id="image"

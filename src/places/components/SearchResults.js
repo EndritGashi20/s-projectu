@@ -12,11 +12,12 @@ const SearchResults = () => {
   const address = searchParams.get("address");
   const city = searchParams.get("city"); 
   const type = searchParams.get("type");
-  const price = searchParams.get("price");
+  const minPrice = searchParams.get("minPrice");
+  const maxPrice = searchParams.get("maxPrice");
   
 
   useEffect(() => {
-    if (!address && !city && !type && !price ) return;
+    if (!address && !city && !type && !minPrice && !maxPrice ) return;
 
     const fetchPlaces = async () => {
       setLoading(true);
@@ -27,9 +28,10 @@ const SearchResults = () => {
         if (address) query += `address=${encodeURIComponent(address)}`;
         if (city) query += `${query ? "&" : ""}city=${encodeURIComponent(city)}`;
         if (type) query += `${query ? "&" : ""}type=${encodeURIComponent(type)}`;
-        if (price) query += `${query ? "&" : ""}price=${encodeURIComponent(price)}`;
+        if (minPrice) query += `${query ? "&" : ""}minPrice=${encodeURIComponent(minPrice)}`;
+        if (maxPrice) query += `${query ? "&" : ""}maxPrice=${encodeURIComponent(maxPrice)}`;
   
-        const response = await fetch(`http://localhost:5000/api/places/search?${query}`);
+        const response = await fetch(`http://localhost:5000/api/places/newest?${query}`);
         const data = await response.json();
   
         console.log("API Response:", data); 
@@ -48,7 +50,7 @@ const SearchResults = () => {
     };
   
     fetchPlaces();
-  }, [address, city, type, price]);
+  }, [address, city, type, minPrice,maxPrice]);
 
   return (
     <div style={{ maxWidth: "600px", margin: "20px auto", textAlign: "center" }}>
@@ -61,8 +63,8 @@ const SearchResults = () => {
       <ul className="places-list">
         {places.map((place) => (
           <PlaceItem
-            key={place.id}
-            id={place.id}
+            key={place._id}
+            id={place._id}
             image={place.image}
             title={place.title}
             description={place.description}
