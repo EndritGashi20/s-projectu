@@ -15,6 +15,7 @@ import MainNavigation from './shared/components/Navigation/MainNavigation';
 import { AuthContext } from './shared/context/auth-context';
 import SearchPlaces from './places/components/SearchPlaces';
 import SearchResults from './places/components/SearchResults';
+import FavoritePlaces from './places/pages/FavoritePlaces';
 
 let logoutTimer;
 
@@ -87,6 +88,9 @@ const App = () => {
         <Route path="/profiles">
           <Users />
         </Route>
+        <Route path="/favorites/:userId">
+          <FavoritePlaces />
+        </Route>
         <Redirect to="/" />
       </Switch>
     );
@@ -107,6 +111,9 @@ const App = () => {
         </Route>
         <Route path="/search">
           <SearchResults />
+        </Route>
+        <Route path="/favorites/:userId">
+          <FavoritePlaces />
         </Route>
         <Redirect to="/auth" />
       </Switch>

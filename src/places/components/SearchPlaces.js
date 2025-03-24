@@ -27,7 +27,13 @@ const SearchPlaces = () => {
   // Refs for Swiper navigation buttons
   const prevRef = useRef(null);
   const nextRef = useRef(null);
-  const userId = useParams().userId;
+  
+
+  // Check if userData exists and then access userId
+  const userData = JSON.parse(localStorage.getItem("userData"));
+const userId = userData?.userId || null; // Ensures userId is defined
+
+console.log("User ID:", userId);
 
   useEffect(() => {
     const fetchPlaces = async () => {
@@ -140,14 +146,17 @@ const SearchPlaces = () => {
         >
           {loadedPlaces.map((place) => (
             <SwiperSlide key={place.id}>
-              <Kards image={place.image} 
-                title={place.title}
-                city={place.city}
-                address={place.address}
-                price={place.price} 
-                type={place.type} 
-              />
-            </SwiperSlide>
+            <Kards 
+              image={place.image} 
+              title={place.title}
+              city={place.city}
+              address={place.address}
+              price={place.price} 
+              type={place.type}
+              id={place.id}   // Ensure this is the correct ID
+              userId={userId} // Pass the logged-in user's ID
+            />
+          </SwiperSlide>
           ))}
         </Swiper>
       </div>

@@ -112,7 +112,7 @@ const NewPlace = () => {
           onInput={inputHandler}
         />
   
-        {/* ✅ Added Dropdown for Rent/Buy */}
+        
         <div className="form-control">
           <label htmlFor="type">Type</label>
           <select
