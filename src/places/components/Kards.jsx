@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-
+import React, { useContext, useState } from "react";
+import AuthContext from "../../shared/context/auth-context";
 const Kards = (props) => {
+ const auth = useContext(AuthContext);
   const [isFavorite, setIsFavorite] = useState(false);
   //router.post('/:uid/favorites/:pid', placesControllers.addFavoritePlace);
   const addToFavorites = async () => {
@@ -37,7 +38,9 @@ const Kards = (props) => {
           <div className="absolute inset-0 bg-black opacity-0 hover:opacity-20 transition"></div>
         </div>
         <div className="p-4">
-          <div className="flex justify-between text-sm font-bold text-gray-800">
+        {auth.isLoggedIn && (
+        <li>
+<div className="flex justify-between text-sm font-bold text-gray-800">
             <span>{props.title}</span>
             <button
               onClick={addToFavorites}
@@ -48,7 +51,8 @@ const Kards = (props) => {
             >
               {isFavorite ? "Added" : "Add to Favorites"}
             </button>
-          </div>
+          </div>        </li>
+      )}
           <p className="text-sm text-gray-600 my-2">
             <span className="text-sm font-bold text-gray-800">ADDRESS: </span> {props.address}
           </p>

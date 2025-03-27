@@ -88,6 +88,9 @@ const App = () => {
         <Route path="/profiles">
           <Users />
         </Route>
+        <Route path="/search">
+          <SearchResults />
+        </Route>
         <Route path="/favorites/:userId">
           <FavoritePlaces />
         </Route>

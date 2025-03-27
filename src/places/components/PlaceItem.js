@@ -10,12 +10,38 @@ import { AuthContext } from '../../shared/context/auth-context';
 import { useHttpClient } from '../../shared/hooks/http-hook';
 import './PlaceItem.css';
 
+
+
 const PlaceItem = props => {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const auth = useContext(AuthContext);
   const [showMap, setShowMap] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+ 
+  
+  //router.post('/:uid/favorites/:pid', placesControllers.addFavoritePlace);
+  const addToFavorites = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/places/${props.userId}/favorites/${props.id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
+      if (response.ok) {
+        setIsFavorite(true);
+      } else {
+        console.error("Failed to add to favorites");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
   const openMapHandler = () => setShowMap(true);
 
   const closeMapHandler = () => setShowMap(false);
@@ -106,6 +132,21 @@ const PlaceItem = props => {
                 DELETE
               </Button>
             )}
+
+{auth.isLoggedIn && (
+        
+            
+            <button
+              onClick={addToFavorites}
+              disabled={isFavorite}
+              className={`px-3 py-1 text-xs font-semibold rounded-lg ${
+                isFavorite ? "bg-gray-400 text-white" : "bg-blue-500 text-white"
+              }`}
+            >
+              {isFavorite ? "Added" : "Add to Favorites"}
+            </button>
+                
+      )}
           </div>
         </Card>
       </li>
