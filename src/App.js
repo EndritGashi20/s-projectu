@@ -16,6 +16,7 @@ import { AuthContext } from './shared/context/auth-context';
 import SearchPlaces from './places/components/SearchPlaces';
 import SearchResults from './places/components/SearchResults';
 import FavoritePlaces from './places/pages/FavoritePlaces';
+import SinglePlace from './places/components/SinglePage';
 
 let logoutTimer;
 
@@ -102,6 +103,9 @@ const App = () => {
       <Switch>
         <Route path="/" exact>
           <SearchPlaces />
+        </Route>
+        <Route path="/SinglePlace/:placeId" exact>
+          <SinglePlace />
         </Route>
         <Route path="/:userId/places" exact>
           <UserPlaces />

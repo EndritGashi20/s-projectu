@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import PlaceItem from "./PlaceItem";
 
 const SearchResults = () => {
@@ -40,7 +40,6 @@ const SearchResults = () => {
           throw new Error(data.message || "No places found.");
         }
   
-        
         setPlaces(data.places && Array.isArray(data.places) ? data.places : []);
       } catch (err) {
         setError(err.message || "Failed to fetch places.");
@@ -50,7 +49,7 @@ const SearchResults = () => {
     };
   
     fetchPlaces();
-  }, [address, city, type, minPrice,maxPrice]);
+  }, [address, city, type, minPrice, maxPrice]);
 
   return (
     <div style={{ maxWidth: "600px", margin: "20px auto", textAlign: "center" }}>
@@ -62,16 +61,21 @@ const SearchResults = () => {
 
       <ul className="places-list">
         {places.map((place) => (
-          <PlaceItem
+         <Link 
+            to={`/SinglePlace/${place._id}`} 
             key={place._id}
-            id={place._id}
-            image={place.image}
-            title={place.title}
-            description={place.description}
-            address={place.address}
-            creatorId={place.creator}
-            coordinates={place.location}
-          />
+            style={{ textDecoration: 'none', color: 'inherit' }}
+          >
+            <PlaceItem
+              id={place._id}
+              image={place.image}
+              title={place.title}
+              description={place.description}
+              address={place.address}
+              creatorId={place.creator}
+              coordinates={place.location}
+            />
+          </Link>
         ))}
       </ul>
     </div>
