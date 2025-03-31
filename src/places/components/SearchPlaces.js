@@ -4,13 +4,14 @@ import { useParams } from "react-router-dom";
 import React from "react";
 import "./SearchPlaces.css";
 import Kards from "./Kards";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { useHttpClient } from "../../shared/hooks/http-hook";
-
+  
 const cities = ["New York", "Los Angeles", "Chicago", "San Francisco", "Miami"];
 const types = ["Rent", "Buy"];
 
@@ -146,6 +147,11 @@ console.log("User ID:", userId);
         >
           {loadedPlaces.map((place) => (
             <SwiperSlide key={place.id}>
+              <Link 
+            to={`/SinglePlace/${place._id}`} 
+            key={place._id}
+            style={{ textDecoration: 'none', color: 'inherit' }}
+          >
             <Kards 
               image={place.image} 
               title={place.title}
@@ -156,6 +162,7 @@ console.log("User ID:", userId);
               id={place.id}   // Ensure this is the correct ID
               userId={userId} // Pass the logged-in user's ID
             />
+            </Link>
           </SwiperSlide>
           ))}
         </Swiper>

@@ -1,10 +1,15 @@
 import React, { useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import AuthContext from "../../shared/context/auth-context";
+
 const Kards = (props) => {
- const auth = useContext(AuthContext);
+  const auth = useContext(AuthContext);
   const [isFavorite, setIsFavorite] = useState(false);
-  //router.post('/:uid/favorites/:pid', placesControllers.addFavoritePlace);
-  const addToFavorites = async () => {
+
+  const addToFavorites = async (e) => {
+    e.preventDefault(); // Prevent link navigation
+    e.stopPropagation(); // Stop event bubbling
+    
     try {
       const response = await fetch(
         `http://localhost:5000/api/places/${props.userId}/favorites/${props.id}`,
@@ -12,6 +17,7 @@ const Kards = (props) => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: 'Bearer ' + auth.token // Add auth token if needed
           },
         }
       );
@@ -28,7 +34,11 @@ const Kards = (props) => {
 
   return (
     <div className="flex justify-center items-center py-4">
-      <div className="w-80 rounded-lg bg-white shadow-lg scale-110">
+      <Link 
+        to={`/SinglePlace/${props.id}`} 
+        className="w-80 rounded-lg bg-white shadow-lg scale-110"
+        style={{ textDecoration: 'none', color: 'inherit' }}
+      >
         <div className="relative">
           <img
             className="rounded-lg w-full h-52 object-cover"
@@ -38,30 +48,29 @@ const Kards = (props) => {
           <div className="absolute inset-0 bg-black opacity-0 hover:opacity-20 transition"></div>
         </div>
         <div className="p-4">
-        {auth.isLoggedIn && (
-        <li>
-<div className="flex justify-between text-sm font-bold text-gray-800">
-            <span>{props.title}</span>
-            <button
-              onClick={addToFavorites}
-              disabled={isFavorite}
-              className={`px-3 py-1 text-xs font-semibold rounded-lg ${
-                isFavorite ? "bg-gray-400 text-white" : "bg-blue-500 text-white"
-              }`}
-            >
-              {isFavorite ? "Added" : "Add to Favorites"}
-            </button>
-          </div>        </li>
-      )}
+          {auth.isLoggedIn && (
+            <div className="flex justify-between text-sm font-bold text-gray-800">
+              <span>{props.title}</span>
+              <button
+                onClick={addToFavorites}
+                disabled={isFavorite}
+                className={`px-3 py-1 text-xs font-semibold rounded-lg ${
+                  isFavorite ? "bg-gray-400 text-white" : "bg-blue-500 text-white"
+                }`}
+              >
+                {isFavorite ? "Added" : "Add to Favorites"}
+              </button>
+            </div>
+          )}
           <p className="text-sm text-gray-600 my-2">
             <span className="text-sm font-bold text-gray-800">ADDRESS: </span> {props.address}
           </p>
           <p className="text-sm text-gray-600 my-2">
             <span className="text-sm font-bold text-gray-800">CITY: </span> {props.city}
           </p>
-          <h5 className="text-sm font-bold text-gray-800">Price $</h5>
+          <h5 className="text-sm font-bold text-gray-800">Price ${props.price}</h5>
         </div>
-      </div>
+      </Link>
     </div>
   );
 };

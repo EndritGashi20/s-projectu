@@ -17,6 +17,7 @@ import SearchPlaces from './places/components/SearchPlaces';
 import SearchResults from './places/components/SearchResults';
 import FavoritePlaces from './places/pages/FavoritePlaces';
 import SinglePlace from './places/components/SinglePage';
+import Footer from './shared/components/UIElements/Footer';
 
 let logoutTimer;
 
@@ -89,6 +90,9 @@ const App = () => {
         <Route path="/profiles">
           <Users />
         </Route>
+        <Route path="/SinglePlace/:placeId" exact>
+          <SinglePlace />
+        </Route>
         <Route path="/search">
           <SearchResults />
         </Route>
@@ -140,6 +144,7 @@ const App = () => {
       <Router>
         <MainNavigation />
         <main>{routes}</main>
+        <Footer />
       </Router>
     </AuthContext.Provider>
   );
