@@ -12,7 +12,7 @@ import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { useHttpClient } from "../../shared/hooks/http-hook";
   
-const cities = ["New York", "Los Angeles", "Chicago", "San Francisco", "Miami"];
+const cities = ["New York", "Los Angeles", "Chicago", "San Francisco", "Miami","newPlace"];
 const types = ["Rent", "Buy"];
 
 const SearchPlaces = () => {
@@ -34,7 +34,7 @@ const SearchPlaces = () => {
   const userData = JSON.parse(localStorage.getItem("userData"));
 const userId = userData?.userId || null; // Ensures userId is defined
 
-console.log("User ID:", userId);
+//console.log("User ID:", userId);
 
   useEffect(() => {
     const fetchPlaces = async () => {

@@ -1,14 +1,15 @@
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import AuthContext from "../../shared/context/auth-context";
 
 const Kards = (props) => {
   const auth = useContext(AuthContext);
   const [isFavorite, setIsFavorite] = useState(false);
+  const location = useLocation(); // 👈 Get current path
 
   const addToFavorites = async (e) => {
-    e.preventDefault(); // Prevent link navigation
-    e.stopPropagation(); // Stop event bubbling
+    e.preventDefault();
+    e.stopPropagation();
     
     try {
       const response = await fetch(
@@ -17,7 +18,7 @@ const Kards = (props) => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: 'Bearer ' + auth.token // Add auth token if needed
+            Authorization: 'Bearer ' + auth.token
           },
         }
       );
@@ -31,6 +32,8 @@ const Kards = (props) => {
       console.error("Error:", error);
     }
   };
+
+  const isFavoritesPage = location.pathname.startsWith("/favorites/");
 
   return (
     <div className="flex justify-center items-center py-4">
@@ -48,7 +51,7 @@ const Kards = (props) => {
           <div className="absolute inset-0 bg-black opacity-0 hover:opacity-20 transition"></div>
         </div>
         <div className="p-4">
-          {auth.isLoggedIn && (
+          {auth.isLoggedIn && !isFavoritesPage && (
             <div className="flex justify-between text-sm font-bold text-gray-800">
               <span>{props.title}</span>
               <button

@@ -34,7 +34,7 @@ const SearchResults = () => {
         const response = await fetch(`http://localhost:5000/api/places/search?${query}`);
         const data = await response.json();
   
-        console.log("API Response:", data); 
+        //console.log("API Response:", data); 
   
         if (!response.ok) {
           throw new Error(data.message || "No places found.");
@@ -53,7 +53,7 @@ const SearchResults = () => {
 
   return (
     <div style={{ maxWidth: "600px", margin: "20px auto", textAlign: "center" }}>
-      <h2>Search Results for "{address || city}"</h2>
+      
 
       {loading && <p>Loading...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}

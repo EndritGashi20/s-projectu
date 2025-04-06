@@ -58,3 +58,21 @@
     height: 20rem;
   } 
 }
+
+.place-item__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.info-row {
+  display: flex;
+  align-items: flex-start;
+}
+
+.label {
+  width: 100px; /* Adjust this width to align the first letters */
+  font-weight: bold;
+  display: inline-block;
+}
+

@@ -59,7 +59,7 @@ const SinglePlace = () => {
         };
 
         fetchUser();
-        console.log(user);
+       // console.log(user);
     }, [place]);
 
     if (loading) return <div>Loading...</div>;
