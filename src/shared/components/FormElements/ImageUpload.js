@@ -1,39 +1,59 @@
 import React, { useRef, useState, useEffect } from 'react';
-
 import Button from './Button';
 import './ImageUpload.css';
 
 const ImageUpload = props => {
-  const [file, setFile] = useState();
-  const [previewUrl, setPreviewUrl] = useState();
+  const [files, setFiles] = useState([]);
+  const [previewUrls, setPreviewUrls] = useState([]);
   const [isValid, setIsValid] = useState(false);
 
   const filePickerRef = useRef();
 
   useEffect(() => {
-    if (!file) {
+    if (!files || files.length === 0) {
       return;
     }
-    const fileReader = new FileReader();
-    fileReader.onload = () => {
-      setPreviewUrl(fileReader.result);
+    
+    const fileReaders = [];
+    let isCancel = false;
+    
+    files.forEach(file => {
+      const fileReader = new FileReader();
+      fileReaders.push(fileReader);
+      
+      fileReader.onload = () => {
+        if (isCancel) return;
+        setPreviewUrls(prev => [...prev, fileReader.result]);
+      };
+      fileReader.readAsDataURL(file);
+    });
+
+    return () => {
+      isCancel = true;
+      fileReaders.forEach(fileReader => {
+        if (fileReader.readyState === 1) {
+          fileReader.abort();
+        }
+      });
     };
-    fileReader.readAsDataURL(file);
-  }, [file]);
+  }, [files]);
 
   const pickedHandler = event => {
-    let pickedFile;
-    let fileIsValid = isValid;
-    if (event.target.files && event.target.files.length === 1) {
-      pickedFile = event.target.files[0];
-      setFile(pickedFile);
+    let pickedFiles = [];
+    let filesAreValid = false;
+    
+    if (event.target.files && event.target.files.length > 0) {
+      pickedFiles = Array.from(event.target.files).slice(0, 5); // Limit to 5 files
+      setFiles(pickedFiles);
+      setPreviewUrls([]); // Clear previous previews
       setIsValid(true);
-      fileIsValid = true;
+      filesAreValid = true;
     } else {
       setIsValid(false);
-      fileIsValid = false;
+      filesAreValid = false;
     }
-    props.onInput(props.id, pickedFile, fileIsValid);
+    
+    props.onInput(props.id, pickedFiles, filesAreValid);
   };
 
   const pickImageHandler = () => {
@@ -49,14 +69,20 @@ const ImageUpload = props => {
         type="file"
         accept=".jpg,.png,.jpeg"
         onChange={pickedHandler}
+        multiple
       />
       <div className={`image-upload ${props.center && 'center'}`}>
         <div className="image-upload__preview">
-          {previewUrl && <img src={previewUrl} alt="Preview" />}
-          {!previewUrl && <p>Please pick an image.</p>}
+          {previewUrls.length > 0 ? (
+            previewUrls.map((url, index) => (
+              <img key={index} src={url} alt={`Preview ${index}`} />
+            ))
+          ) : (
+            <p>Please pick one or more images (up to 5).</p>
+          )}
         </div>
         <Button type="button" onClick={pickImageHandler}>
-          PICK IMAGE
+          PICK IMAGES
         </Button>
       </div>
       {!isValid && <p>{props.errorText}</p>}

@@ -1,3 +1,26 @@
+/* Reset default spacing */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  background-color: #f0f0f0; /* optional */
+  margin: 0;
+  padding: 0;
+}
+
+/* Navigation Bar */
+.main-navigation {
+  background-color: #333;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .main-navigation__menu-btn {
   width: 3rem;
   height: 3rem;
@@ -42,4 +65,10 @@
   .main-navigation__header-nav {
     display: block;
   }
+}
+
+/* Main Content */
+main {
+  margin-top: 1.72cm;
+  padding: 0;
 }

@@ -153,7 +153,7 @@ const userId = userData?.userId || null; // Ensures userId is defined
             style={{ textDecoration: 'none', color: 'inherit' }}
           >
             <Kards 
-              image={place.image} 
+              images={place.images} 
               title={place.title}
               city={place.city}
               address={place.address}

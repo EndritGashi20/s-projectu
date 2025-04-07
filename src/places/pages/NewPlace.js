@@ -62,10 +62,15 @@ const NewPlace = () => {
       formData.append('description', formState.inputs.description.value);
       formData.append('address', formState.inputs.address.value);
       formData.append('creator', auth.userId);
-      formData.append('image', formState.inputs.image.value);
-      formData.append('city', formState.inputs.title.value);
-      formData.append('type', formState.inputs.title.value);
-      formData.append('price',formState.inputs.price.value);
+      formData.append('city', formState.inputs.city.value);
+      formData.append('type', formState.inputs.type.value);
+      formData.append('price', formState.inputs.price.value);
+      
+      // Append each image file
+      for (let i = 0; i < formState.inputs.image.value.length; i++) {
+        formData.append('images', formState.inputs.image.value[i]);
+      }
+      
       await sendRequest('http://localhost:5000/api/places', 'POST', formData);
       history.push('/');
     } catch (err) {}

@@ -68,7 +68,7 @@ const SearchResults = () => {
           >
             <PlaceItem
               id={place._id}
-              image={place.image}
+              images={place.images}
               title={place.title}
               description={place.description}
               address={place.address}

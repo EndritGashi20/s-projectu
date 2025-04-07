@@ -76,3 +76,46 @@
   display: inline-block;
 }
 
+
+.place-item__slider {
+  position: relative;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.slider-container {
+  position: relative;
+  display: inline-block;
+}
+
+.slider-image {
+  width: 100%;
+  max-width: 700px;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 0px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+}
+
+.slider-controls {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.slider-controls button {
+  padding: 0.3rem 0.6rem;
+  font-size: 1.2rem;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.slider-controls span {
+  font-weight: bold;
+}
+

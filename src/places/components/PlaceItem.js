@@ -17,8 +17,8 @@ const PlaceItem = props => {
   const [showMap, setShowMap] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // ✅ Check if we're on the favorites page
   const isFavoritesPage = useRouteMatch('/favorites/:userId');
 
   const addToFavorites = async () => {
@@ -64,10 +64,22 @@ const PlaceItem = props => {
     } catch (err) {}
   };
 
+  const nextImage = () => {
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex === props.images.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex === 0 ? props.images.length - 1 : prevIndex - 1
+    );
+  };
+
   return (
     <React.Fragment>
       <ErrorModal error={error} onClear={clearError} />
-      
+
       <Modal
         show={showMap}
         onCancel={closeMapHandler}
@@ -100,8 +112,24 @@ const PlaceItem = props => {
         <Card className="place-item__content">
           {isLoading && <LoadingSpinner asOverlay />}
 
-          <div className="place-item__image">
-            <img src={`http://localhost:5000/${props.image}`} alt={props.title} />
+          {/* Image Slider Section */}
+          <div className="place-item__slider">
+            {props.images?.length > 0 && (
+              <div className="slider-container">
+                <img
+                  src={`http://localhost:5000/${props.images[currentImageIndex].replace(/\\/g, '/')}`}
+                  alt={`${props.title} - ${currentImageIndex + 1}`}
+                  className="slider-image"
+                />
+                {props.images.length > 1 && (
+                  <div className="slider-controls">
+                    <button onClick={prevImage}>&lt;</button>
+                    <span>{currentImageIndex + 1} / {props.images.length}</span>
+                    <button onClick={nextImage}>&gt;</button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           <div className="place-item__info">
@@ -127,8 +155,7 @@ const PlaceItem = props => {
               </React.Fragment>
             )}
 
-            {/* ✅ Hide Add to Favorites if on /favorites/:userId */}
-            {auth.isLoggedIn && !isFavoritesPage && (
+            {!isFavoritesPage && auth.isLoggedIn && (
               <Button
                 onClick={addToFavorites}
                 disabled={isFavorite}

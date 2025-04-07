@@ -5,12 +5,12 @@ import AuthContext from "../../shared/context/auth-context";
 const Kards = (props) => {
   const auth = useContext(AuthContext);
   const [isFavorite, setIsFavorite] = useState(false);
-  const location = useLocation(); // 👈 Get current path
+  const location = useLocation();
 
   const addToFavorites = async (e) => {
     e.preventDefault();
     e.stopPropagation();
-    
+
     try {
       const response = await fetch(
         `http://localhost:5000/api/places/${props.userId}/favorites/${props.id}`,
@@ -35,17 +35,22 @@ const Kards = (props) => {
 
   const isFavoritesPage = location.pathname.startsWith("/favorites/");
 
+ 
+  const firstImage = props.images && props.images.length > 0
+    ? `http://localhost:5000/${props.images[0]}`
+    : `http://localhost:5000/${props.image}`;
+
   return (
     <div className="flex justify-center items-center py-4">
-      <Link 
-        to={`/SinglePlace/${props.id}`} 
+      <Link
+        to={`/SinglePlace/${props.id}`}
         className="w-80 rounded-lg bg-white shadow-lg scale-110"
         style={{ textDecoration: 'none', color: 'inherit' }}
       >
         <div className="relative">
           <img
             className="rounded-lg w-full h-52 object-cover"
-            src={`http://localhost:5000/${props.image}`}
+            src={firstImage}
             alt={props.title}
           />
           <div className="absolute inset-0 bg-black opacity-0 hover:opacity-20 transition"></div>
