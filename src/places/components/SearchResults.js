@@ -14,6 +14,8 @@ const SearchResults = () => {
   const type = searchParams.get("type");
   const minPrice = searchParams.get("minPrice");
   const maxPrice = searchParams.get("maxPrice");
+  const userData = JSON.parse(localStorage.getItem("userData"));
+const userId = userData?.userId || null; 
   
 
   useEffect(() => {
@@ -74,6 +76,7 @@ const SearchResults = () => {
               address={place.address}
               creatorId={place.creator}
               coordinates={place.location}
+              userId={userId}
             />
           </Link>
         ))}

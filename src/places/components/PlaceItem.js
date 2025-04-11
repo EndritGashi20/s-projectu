@@ -21,7 +21,9 @@ const PlaceItem = props => {
 
   const isFavoritesPage = useRouteMatch('/favorites/:userId');
 
-  const addToFavorites = async () => {
+  const addToFavorites = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     try {
       const response = await fetch(
         `http://localhost:5000/api/places/${props.userId}/favorites/${props.id}`,
@@ -49,7 +51,9 @@ const PlaceItem = props => {
   const showDeleteWarningHandler = () => setShowConfirmModal(true);
   const cancelDeleteHandler = () => setShowConfirmModal(false);
 
-  const confirmDeleteHandler = async () => {
+  const confirmDeleteHandler = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     setShowConfirmModal(false);
     try {
       await sendRequest(
@@ -64,13 +68,17 @@ const PlaceItem = props => {
     } catch (err) {}
   };
 
-  const nextImage = () => {
+  const nextImage = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     setCurrentImageIndex((prevIndex) =>
       prevIndex === props.images.length - 1 ? 0 : prevIndex + 1
     );
   };
 
-  const prevImage = () => {
+  const prevImage = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
     setCurrentImageIndex((prevIndex) =>
       prevIndex === 0 ? props.images.length - 1 : prevIndex - 1
     );
@@ -157,7 +165,7 @@ const PlaceItem = props => {
 
             {!isFavoritesPage && auth.isLoggedIn && (
               <Button
-                onClick={addToFavorites}
+              onClick={addToFavorites}
                 disabled={isFavorite}
                 className={`px-3 py-1 text-xs font-semibold rounded-lg ${
                   isFavorite ? "bg-gray-400 text-white" : "bg-blue-500 text-white"

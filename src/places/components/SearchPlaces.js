@@ -32,9 +32,8 @@ const SearchPlaces = () => {
 
   // Check if userData exists and then access userId
   const userData = JSON.parse(localStorage.getItem("userData"));
-const userId = userData?.userId || null; // Ensures userId is defined
+const userId = userData?.userId || null; 
 
-//console.log("User ID:", userId);
 
   useEffect(() => {
     const fetchPlaces = async () => {
