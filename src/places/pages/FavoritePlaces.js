@@ -16,7 +16,7 @@ const FavoritePlaces = () => {
      const fetchPlaces = async () => {
       try {
         const responseData = await sendRequest(
-          `http://localhost:5000/api/places/${userId}/favorites`
+          process.env.REACT_APP_BACKEND_URL + `/places/${userId}/favorites`
         );
   
         // Ensure we set only the 'favorites' array

@@ -33,7 +33,7 @@ const userId = userData?.userId || null;
         if (minPrice) query += `${query ? "&" : ""}minPrice=${encodeURIComponent(minPrice)}`;
         if (maxPrice) query += `${query ? "&" : ""}maxPrice=${encodeURIComponent(maxPrice)}`;
   
-        const response = await fetch(`http://localhost:5000/api/places/search?${query}`);
+        const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/places/search?${query}`);
         const data = await response.json();
   
         //console.log("API Response:", data); 

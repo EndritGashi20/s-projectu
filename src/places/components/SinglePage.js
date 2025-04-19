@@ -17,7 +17,7 @@ const SinglePlace = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch(`http://localhost:5000/api/places/${placeId}`);
+        const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/places/${placeId}`);
         const data = await response.json();
         if (!response.ok) throw new Error(data.message || "No place found.");
         setPlace(data.place || null);
@@ -36,7 +36,7 @@ const SinglePlace = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch(`http://localhost:5000/api/users/user/${place.creator}`);
+        const response = await fetch(process.env.REACT_APP_BACKEND_URL + `/users/user/${place.creator}`);
         const data = await response.json();
         if (!response.ok) throw new Error(data.message || "User not found.");
         setUser(data.user || null);
@@ -91,7 +91,7 @@ const SinglePlace = () => {
             overflow: "hidden"
           }}>
             <img
-              src={`http://localhost:5000/${place.images[currentImageIndex]}`}
+              src={`${process.env.REACT_APP_ASSET_URL}/${place.images[currentImageIndex]}`}
               alt={place.title}
               style={{
                 width: "100%",
@@ -151,7 +151,7 @@ const SinglePlace = () => {
             >
               <div style={creatorCardStyle}>
                 <img
-                  src={`http://localhost:5000/${user?.image}`}
+                  src={`${process.env.REACT_APP_ASSET_URL}/${user?.image}`}
                   alt={user?.name}
                   style={{
                     width: "80px",

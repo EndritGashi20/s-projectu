@@ -26,7 +26,7 @@ const PlaceItem = props => {
     e.stopPropagation();
     try {
       const response = await fetch(
-        `http://localhost:5000/api/places/${props.userId}/favorites/${props.id}`,
+        process.env.REACT_APP_BACKEND_URL + `/places/${props.userId}/favorites/${props.id}`,
         {
           method: "POST",
           headers: {
@@ -57,7 +57,7 @@ const PlaceItem = props => {
     setShowConfirmModal(false);
     try {
       await sendRequest(
-        `http://localhost:5000/api/places/${props.id}`,
+        process.env.REACT_APP_BACKEND_URL + `/places/${props.id}`,
         'DELETE',
         null,
         {
@@ -125,10 +125,10 @@ const PlaceItem = props => {
             {props.images?.length > 0 && (
               <div className="slider-container">
                 <img
-                  src={`http://localhost:5000/${props.images[currentImageIndex].replace(/\\/g, '/')}`}
-                  alt={`${props.title} - ${currentImageIndex + 1}`}
-                  className="slider-image"
-                />
+  src={`${process.env.REACT_APP_ASSET_URL}/${props.images[currentImageIndex].replace(/\\/g, '/')}`}
+  alt={`${props.title} - ${currentImageIndex + 1}`}
+  className="slider-image"
+/>
                 {props.images.length > 1 && (
                   <div className="slider-controls">
                     <button onClick={prevImage}>&lt;</button>

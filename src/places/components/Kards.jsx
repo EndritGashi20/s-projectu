@@ -13,7 +13,7 @@ const Kards = (props) => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/places/${props.userId}/favorites/${props.id}`,
+        process.env.REACT_APP_BACKEND_URL + `/places/${props.userId}/favorites/${props.id}`,
         {
           method: "POST",
           headers: {
@@ -37,8 +37,8 @@ const Kards = (props) => {
 
  
   const firstImage = props.images && props.images.length > 0
-    ? `http://localhost:5000/${props.images[0]}`
-    : `http://localhost:5000/${props.image}`;
+    ? `${process.env.REACT_APP_ASSET_URL}/${props.images[0]}`
+    : `${process.env.REACT_APP_ASSET_URL}/${props.image}`;
 
   return (
     <div className="flex justify-center items-center py-4">

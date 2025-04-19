@@ -71,7 +71,7 @@ const NewPlace = () => {
         formData.append('images', formState.inputs.image.value[i]);
       }
       
-      await sendRequest('http://localhost:5000/api/places', 'POST', formData);
+      await sendRequest(process.env.REACT_APP_BACKEND_URL + '/places', 'POST', formData);
       history.push('/');
     } catch (err) {}
   };
